@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Channel Menu</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #0f0f0f;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+    max-width: 900px;
+    margin: auto;
+}
+
+button {
+    padding: 14px;
+    font-size: 15px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #2196f3;
+    color: white;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #1565c0;
+}
+</style>
+</head>
+
+<body>
+
+<h1>📺 Main Menu</h1>
+
+<div class="grid" id="menu"></div>
+
+<script>
+
+// UNIQUE CHANNEL LIST
+const channels = [
+  "vix1",
+  "dsports",
+  "dsportsar",
+  "telemundo",
+  "tsn1",
+  "vix2",
+  "disney1",
+  "tyc",
+  "canal5mx",
+  "azteca7",
+  "vix3",
+  "dsportsplus",
+  "fox1usa",
+  "vix4",
+  "disney2"
+];
+
+// build buttons
+const menu = document.getElementById("menu");
+
+channels.forEach(ch => {
+    const btn = document.createElement("button");
+
+    btn.innerText = ch.toUpperCase();
+
+    btn.onclick = () => {
+        const url = `https://streamx741.com/global1.php?channel=${ch}`;
+
+        // open in new tab so main menu stays usable
+        window.open(url, "_blank", "noopener,noreferrer");
+    };
+
+    menu.appendChild(btn);
+});
+
+</script>
+
+</body>
+</html>
