@@ -23,8 +23,10 @@ h1 {
     gap: 12px;
     max-width: 900px;
     margin: auto;
+    margin-bottom: 40px; /* Adds space between the two lists */
 }
 
+/* Default Button Style (Blue for List 1) */
 button {
     padding: 14px;
     font-size: 15px;
@@ -40,52 +42,93 @@ button {
 button:hover {
     background: #1565c0;
 }
+
+/* Green Button Style for List 2 */
+button.green {
+    background: #4caf50;
+}
+
+button.green:hover {
+    background: #2e7d32;
+}
 </style>
 </head>
 
 <body>
 
-<h1>📺 Main Menu</h1>
+<h1>📺 RojaDirecta</h1>
+<div class="grid" id="menu1"></div>
 
-<div class="grid" id="menu"></div>
+<h1>🏆 FutbolLibre</h1>
+<div class="grid" id="menu2"></div>
 
 <script>
 
-// UNIQUE CHANNEL LIST
-const channels = [
-  "vix1",
-  "dsports",
-  "dsportsar",
-  "telemundo",
-  "tsn1",
-  "vix2",
-  "disney1",
-  "tyc",
-  "canal5mx",
-  "azteca7",
-  "vix3",
-  "dsportsplus",
-  "fox1usa",
-  "vix4",
-  "disney2"
+// ==========================================
+// LIST 1: Original Channels (Blue Buttons)
+// Format: Complete hardcoded URLs
+// ==========================================
+const channels1 = [
+  { name: "vix1", url: "https://streamx741.com/global1.php?channel=vix1" },
+  { name: "dsports", url: "https://streamx741.com/global1.php?channel=dsports" },
+  { name: "dsportsar", url: "https://streamx741.com/global1.php?channel=dsportsar" },
+  { name: "telemundo", url: "https://streamx741.com/global1.php?channel=telemundo" },
+  { name: "tsn1", url: "https://streamx741.com/global1.php?channel=tsn1" },
+  { name: "vix2", url: "https://streamx741.com/global1.php?channel=vix2" },
+  { name: "disney1", url: "https://streamx741.com/global1.php?channel=disney1" },
+  { name: "tyc", url: "https://streamx741.com/global1.php?channel=tyc" },
+  { name: "canal5mx", url: "https://streamx741.com/global1.php?channel=canal5mx" },
+  { name: "azteca7", url: "https://streamx741.com/global1.php?channel=azteca7" },
+  { name: "vix3", url: "https://streamx741.com/global1.php?channel=vix3" },
+  { name: "dsportsplus", url: "https://streamx741.com/global1.php?channel=dsportsplus" },
+  { name: "fox1usa", url: "https://streamx741.com/global1.php?channel=fox1usa" },
+  { name: "vix4", url: "https://streamx741.com/global1.php?channel=vix4" },
+  { name: "disney2", url: "https://streamx741.com/global1.php?channel=disney2" }
 ];
 
-// build buttons
-const menu = document.getElementById("menu");
+// ==========================================
+// LIST 2: Extracted Channels (Green Buttons)
+// Format: Complete hardcoded URLs
+// ==========================================
+const channels2 = [
+  { name: "tycsports", url: "https://tvtvhd.com/canales.php?stream=tycsports" },
+  { name: "tntsports", url: "https://tvtvhd.com/tv/canales.php?stream=tntsports" },
+  { name: "espnpremium", url: "https://tvtvhd.com/vivo/canal.php?stream=espnpremium" },
+  { name: "even6", url: "https://tvtvhd.com/tv/canal.php?stream=even6" },
+  { name: "even5", url: "https://tvtvhd.com/tv/canal.php?stream=even5" },
+  { name: "espn", url: "https://tvtvhd.com/canales.php?stream=espn" },
+  { name: "espn-2", url: "https://futbollibremundial.com/en-vivo/espn-2" },
+  { name: "foxsports", url: "https://tvtvhd.com/canales.php?stream=foxsports" },
+  { name: "foxsports2", url: "https://tvtvhd.com/canales.php?stream=foxsports2" },
+  { name: "foxsports3", url: "https://tvtvhd.com/canales.php?stream=foxsports3" },
+  { name: "dsports", url: "https://tvtvhd.com/tv/canales.php?stream=dsports" },
+  { name: "dsports2", url: "https://tvtvhd.com/canales.php?stream=dsports2" },
+  { name: "dsportsplus", url: "https://tvtvhd.com/canales.php?stream=dsportsplus" },
+  { name: "liga1max", url: "https://tvtvhd.com/canales.php?stream=liga1max" },
+  { name: "movistar", url: "https://tvtvhd.com/canales.php?stream=movistar" }
+];
 
-channels.forEach(ch => {
+// --- Build Buttons for List 1 (Blue) ---
+const menu1 = document.getElementById("menu1");
+channels1.forEach(ch => {
     const btn = document.createElement("button");
-
-    btn.innerText = ch.toUpperCase();
-
+    btn.innerText = ch.name.toUpperCase(); // Only extracted channel name
     btn.onclick = () => {
-        const url = `https://streamx741.com/global1.php?channel=${ch}`;
-
-        // open in new tab so main menu stays usable
-        window.open(url, "_blank", "noopener,noreferrer");
+        window.open(ch.url, "_blank", "noopener,noreferrer"); // Uses the complete hardcoded URL
     };
+    menu1.appendChild(btn);
+});
 
-    menu.appendChild(btn);
+// --- Build Buttons for List 2 (Green) ---
+const menu2 = document.getElementById("menu2");
+channels2.forEach(ch => {
+    const btn = document.createElement("button");
+    btn.classList.add("green"); // Applies the green styling
+    btn.innerText = ch.name.toUpperCase(); // Only extracted channel name
+    btn.onclick = () => {
+        window.open(ch.url, "_blank", "noopener,noreferrer"); // Uses the complete hardcoded URL
+    };
+    menu2.appendChild(btn);
 });
 
 </script>
