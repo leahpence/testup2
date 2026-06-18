@@ -23,10 +23,10 @@ h1 {
     gap: 12px;
     max-width: 900px;
     margin: auto;
-    margin-bottom: 40px; /* Adds space between the two lists */
+    margin-bottom: 40px;
 }
 
-/* Default Button Style (Blue for List 1) */
+/* Buttons */
 button {
     padding: 14px;
     font-size: 15px;
@@ -43,7 +43,6 @@ button:hover {
     background: #1565c0;
 }
 
-/* Green Button Style for List 2 */
 button.green {
     background: #4caf50;
 }
@@ -51,84 +50,374 @@ button.green {
 button.green:hover {
     background: #2e7d32;
 }
+
+button.yellow {
+    background: #ffb300;
+}
+
+button.yellow:hover {
+    background: #ff8f00;
+}
+
+/* EXIT BUTTON */
+#exitBtn {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    z-index: 10000;
+    background: rgba(229, 9, 20, 0.95);
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: none;
+}
+
+/* STREAM PLAYER */
+#currentStream {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+    display: none;
+    z-index: 9999;
+}
+
+#currentStream iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
 </style>
 </head>
 
 <body>
 
-<h1>📺 RojaDirecta</h1>
+<h1>📺 Roja_Directa</h1>
 <div class="grid" id="menu1"></div>
 
-<h1>🏆 FutbolLibre</h1>
+<h1>📺 FutbolLibre_1</h1>
 <div class="grid" id="menu2"></div>
+
+<h1>📺 FutbolLibre_2</h1>
+<div class="grid" id="menu3"></div>
+
+<button id="exitBtn">✕ Exit to Menu</button>
+<div id="currentStream"></div>
 
 <script>
 
-// ==========================================
-// LIST 1: Original Channels (Blue Buttons)
-// Format: Complete hardcoded URLs
-// ==========================================
+// =====================
+// LIST 1 (Blue)
+// =====================
 const channels1 = [
-  { name: "vix1", url: "https://streamx741.com/global1.php?channel=vix1" },
+  { name: "azteca7", url: "https://streamx741.com/global1.php?channel=azteca7" },
+  { name: "canal5mx", url: "https://streamx741.com/global1.php?channel=canal5mx" },
+  { name: "disney1", url: "https://streamx741.com/global1.php?channel=disney1" },
+  { name: "disney2", url: "https://streamx741.com/global1.php?channel=disney2" },
   { name: "dsports", url: "https://streamx741.com/global1.php?channel=dsports" },
   { name: "dsportsar", url: "https://streamx741.com/global1.php?channel=dsportsar" },
-  { name: "telemundo", url: "https://streamx741.com/global1.php?channel=telemundo" },
-  { name: "tsn1", url: "https://streamx741.com/global1.php?channel=tsn1" },
-  { name: "vix2", url: "https://streamx741.com/global1.php?channel=vix2" },
-  { name: "disney1", url: "https://streamx741.com/global1.php?channel=disney1" },
-  { name: "tyc", url: "https://streamx741.com/global1.php?channel=tyc" },
-  { name: "canal5mx", url: "https://streamx741.com/global1.php?channel=canal5mx" },
-  { name: "azteca7", url: "https://streamx741.com/global1.php?channel=azteca7" },
-  { name: "vix3", url: "https://streamx741.com/global1.php?channel=vix3" },
   { name: "dsportsplus", url: "https://streamx741.com/global1.php?channel=dsportsplus" },
   { name: "fox1usa", url: "https://streamx741.com/global1.php?channel=fox1usa" },
-  { name: "vix4", url: "https://streamx741.com/global1.php?channel=vix4" },
-  { name: "disney2", url: "https://streamx741.com/global1.php?channel=disney2" }
+  { name: "telemundo", url: "https://streamx741.com/global1.php?channel=telemundo" },
+  { name: "tsn1", url: "https://streamx741.com/global1.php?channel=tsn1" },
+  { name: "tyc", url: "https://streamx741.com/global1.php?channel=tyc" },
+  { name: "vix1", url: "https://streamx741.com/global1.php?channel=vix1" },
+  { name: "vix2", url: "https://streamx741.com/global1.php?channel=vix2" },
+  { name: "vix3", url: "https://streamx741.com/global1.php?channel=vix3" },
+  { name: "vix4", url: "https://streamx741.com/global1.php?channel=vix4" }
 ];
 
-// ==========================================
-// LIST 2: Extracted Channels (Green Buttons)
-// Format: Complete hardcoded URLs
-// ==========================================
-const channels2 = [
-  { name: "tycsports", url: "https://tvtvhd.com/canales.php?stream=tycsports" },
-  { name: "tntsports", url: "https://tvtvhd.com/tv/canales.php?stream=tntsports" },
-  { name: "espnpremium", url: "https://tvtvhd.com/vivo/canal.php?stream=espnpremium" },
-  { name: "even6", url: "https://tvtvhd.com/tv/canal.php?stream=even6" },
-  { name: "even5", url: "https://tvtvhd.com/tv/canal.php?stream=even5" },
-  { name: "espn", url: "https://tvtvhd.com/canales.php?stream=espn" },
-  { name: "espn-2", url: "https://futbollibremundial.com/en-vivo/espn-2" },
-  { name: "foxsports", url: "https://tvtvhd.com/canales.php?stream=foxsports" },
-  { name: "foxsports2", url: "https://tvtvhd.com/canales.php?stream=foxsports2" },
-  { name: "foxsports3", url: "https://tvtvhd.com/canales.php?stream=foxsports3" },
-  { name: "dsports", url: "https://tvtvhd.com/tv/canales.php?stream=dsports" },
+
+// =====================
+// LIST 2 (Green)
+// =====================
+const channels = [
+  { name: "azteca7", url: "https://tvtvhd.com/canales.php?stream=azteca7" },
+  { name: "azteca_deportes", url: "https://tvtvhd.com/canales.php?stream=azteca_deportes" },
+  { name: "beinsport_xtra_esp", url: "https://tvtvhd.com/canales.php?stream=beinsport_xtra_espanol" },
+  { name: "beinsportes", url: "https://tvtvhd.com/canales.php?stream=beinsportes" },
+  { name: "calientetv", url: "https://tvtvhd.com/canales.php?stream=calientetv" },
+  { name: "canal11_pt", url: "https://tvtvhd.com/canales.php?stream=canal11_pt" },
+  { name: "canal5", url: "https://tvtvhd.com/canales.php?stream=canal5" },
+  { name: "cbs_sports_net", url: "https://tvtvhd.com/canales.php?stream=cbs_sports_network" },
+  { name: "dazn1", url: "https://tvtvhd.com/canales.php?stream=dazn1" },
+  { name: "dazn1_de", url: "https://tvtvhd.com/canales.php?stream=dazn1_de" },
+  { name: "dazn2", url: "https://tvtvhd.com/canales.php?stream=dazn2" },
+  { name: "dazn2_de", url: "https://tvtvhd.com/canales.php?stream=dazn2_de" },
+  { name: "dazn3", url: "https://tvtvhd.com/canales.php?stream=dazn3" },
+  { name: "dazn4", url: "https://tvtvhd.com/canales.php?stream=dazn4" },
+  { name: "dazn_laliga", url: "https://tvtvhd.com/canales.php?stream=dazn_laliga" },
+  { name: "dsports", url: "https://tvtvhd.com/canales.php?stream=dsports" },
   { name: "dsports2", url: "https://tvtvhd.com/canales.php?stream=dsports2" },
   { name: "dsportsplus", url: "https://tvtvhd.com/canales.php?stream=dsportsplus" },
+  { name: "ecdf_ligapro", url: "https://tvtvhd.com/canales.php?stream=ecdf_ligapro" },
+  { name: "eleven1_pt", url: "https://tvtvhd.com/canales.php?stream=eleven1_pt" },
+  { name: "eleven2_pt", url: "https://tvtvhd.com/canales.php?stream=eleven2_pt" },
+  { name: "eleven3_pt", url: "https://tvtvhd.com/canales.php?stream=eleven3_pt" },
+  { name: "eleven4_pt", url: "https://tvtvhd.com/canales.php?stream=eleven4_pt" },
+  { name: "eleven5_pt", url: "https://tvtvhd.com/canales.php?stream=eleven5_pt" },
+  { name: "eleven6_pt", url: "https://tvtvhd.com/canales.php?stream=eleven6_pt" },
+  { name: "elevenpro1_be", url: "https://tvtvhd.com/canales.php?stream=elevenpro1_be" },
+  { name: "espn", url: "https://tvtvhd.com/canales.php?stream=espn" },
+  { name: "espn1_nl", url: "https://tvtvhd.com/canales.php?stream=espn1_nl" },
+  { name: "espn2", url: "https://tvtvhd.com/canales.php?stream=espn2" },
+  { name: "espn2_nl", url: "https://tvtvhd.com/canales.php?stream=espn2_nl" },
+  { name: "espn2_usa", url: "https://tvtvhd.com/canales.php?stream=espn2_usa" },
+  { name: "espn2mx", url: "https://tvtvhd.com/canales.php?stream=espn2mx" },
+  { name: "espn3", url: "https://tvtvhd.com/canales.php?stream=espn3" },
+  { name: "espn3_nl", url: "https://tvtvhd.com/canales.php?stream=espn3_nl" },
+  { name: "espn3mx", url: "https://tvtvhd.com/canales.php?stream=espn3mx" },
+  { name: "espn4", url: "https://tvtvhd.com/canales.php?stream=espn4" },
+  { name: "espn4mx", url: "https://tvtvhd.com/canales.php?stream=espn4mx" },
+  { name: "espn5", url: "https://tvtvhd.com/canales.php?stream=espn5" },
+  { name: "espn6", url: "https://tvtvhd.com/canales.php?stream=espn6" },
+  { name: "espn7", url: "https://tvtvhd.com/canales.php?stream=espn7" },
+  { name: "espn_usa", url: "https://tvtvhd.com/canales.php?stream=espn_usa" },
+  { name: "espndeportes", url: "https://tvtvhd.com/canales.php?stream=espndeportes" },
+  { name: "espnmx", url: "https://tvtvhd.com/canales.php?stream=espnmx" },
+  { name: "espnpremium", url: "https://tvtvhd.com/canales.php?stream=espnpremium" },
+  { name: "espnu", url: "https://tvtvhd.com/canales.php?stream=espnu" },
+  { name: "eventos13", url: "https://tvtvhd.com/canales.php?stream=eventos13" },
+  { name: "foxdeportes", url: "https://tvtvhd.com/canales.php?stream=foxdeportes" },
+  { name: "foxsports", url: "https://tvtvhd.com/canales.php?stream=foxsports" },
+  { name: "foxsports1_usa", url: "https://tvtvhd.com/canales.php?stream=foxsports1_usa" },
+  { name: "foxsports2", url: "https://tvtvhd.com/canales.php?stream=foxsports2" },
+  { name: "foxsports2_usa", url: "https://tvtvhd.com/canales.php?stream=foxsports2_usa" },
+  { name: "foxsports2mx", url: "https://tvtvhd.com/canales.php?stream=foxsports2mx" },
+  { name: "foxsports3", url: "https://tvtvhd.com/canales.php?stream=foxsports3" },
+  { name: "foxsports3mx", url: "https://tvtvhd.com/canales.php?stream=foxsports3mx" },
+  { name: "foxsportsmx", url: "https://tvtvhd.com/canales.php?stream=foxsportsmx" },
+  { name: "foxsportspremium", url: "https://tvtvhd.com/canales.php?stream=foxsportspremium" },
+  { name: "golperu", url: "https://tvtvhd.com/canales.php?stream=golperu" },
+  { name: "goltv", url: "https://tvtvhd.com/canales.php?stream=goltv" },
+  { name: "hisports", url: "https://tvtvhd.com/canales.php?stream=hisports" },
+  { name: "la1tve", url: "https://tvtvhd.com/canales.php?stream=la1tve" },
+  { name: "laligatvbar", url: "https://tvtvhd.com/canales.php?stream=laligatvbar" },
   { name: "liga1max", url: "https://tvtvhd.com/canales.php?stream=liga1max" },
-  { name: "movistar", url: "https://tvtvhd.com/canales.php?stream=movistar" }
+  { name: "ligadecampeones1", url: "https://tvtvhd.com/canales.php?stream=ligadecampeones1" },
+  { name: "ligadecampeones2", url: "https://tvtvhd.com/canales.php?stream=ligadecampeones2" },
+  { name: "ligadecampeones3", url: "https://tvtvhd.com/canales.php?stream=ligadecampeones3" },
+  { name: "m_laligatv", url: "https://tvtvhd.com/canales.php?stream=m_laligatv" },
+  { name: "movistar", url: "https://tvtvhd.com/canales.php?stream=movistar" },
+  { name: "premiere1", url: "https://tvtvhd.com/canales.php?stream=premiere1" },
+  { name: "premiere2", url: "https://tvtvhd.com/canales.php?stream=premiere2" },
+  { name: "premiere3", url: "https://tvtvhd.com/canales.php?stream=premiere3" },
+  { name: "premiere4", url: "https://tvtvhd.com/canales.php?stream=premiere4" },
+  { name: "premiere5", url: "https://tvtvhd.com/canales.php?stream=premiere5" },
+  { name: "premiere6", url: "https://tvtvhd.com/canales.php?stream=premiere6" },
+  { name: "premiere7", url: "https://tvtvhd.com/canales.php?stream=premiere7" },
+  { name: "premiere8", url: "https://tvtvhd.com/canales.php?stream=premiere8" },
+  { name: "sky_bundesliga1", url: "https://tvtvhd.com/canales.php?stream=sky_bundesliga1" },
+  { name: "sky_bundesliga2", url: "https://tvtvhd.com/canales.php?stream=sky_bundesliga2" },
+  { name: "sky_bundesliga3", url: "https://tvtvhd.com/canales.php?stream=sky_bundesliga3" },
+  { name: "sky_bundesliga4", url: "https://tvtvhd.com/canales.php?stream=sky_bundesliga4" },
+  { name: "sky_bundesliga5", url: "https://tvtvhd.com/canales.php?stream=sky_bundesliga5" },
+  { name: "sky_bundesliga_mx", url: "https://tvtvhd.com/canales.php?stream=sky_bundesliga_mx" },
+  { name: "sky_sports_laliga", url: "https://tvtvhd.com/canales.php?stream=sky_sports_laliga" },
+  { name: "sporttv1", url: "https://tvtvhd.com/canales.php?stream=sporttv1" },
+  { name: "sporttv2", url: "https://tvtvhd.com/canales.php?stream=sporttv2" },
+  { name: "sporttv3", url: "https://tvtvhd.com/canales.php?stream=sporttv3" },
+  { name: "sporttv4", url: "https://tvtvhd.com/canales.php?stream=sporttv4" },
+  { name: "sporttv5", url: "https://tvtvhd.com/canales.php?stream=sporttv5" },
+  { name: "sporttv6", url: "https://tvtvhd.com/canales.php?stream=sporttv6" },
+  { name: "sportv", url: "https://tvtvhd.com/canales.php?stream=sportv" },
+  { name: "sportv2", url: "https://tvtvhd.com/canales.php?stream=sportv2" },
+  { name: "sportv3", url: "https://tvtvhd.com/canales.php?stream=sportv3" },
+  { name: "telefe", url: "https://tvtvhd.com/canales.php?stream=telefe" },
+  { name: "telemundo", url: "https://tvtvhd.com/canales.php?stream=telemundo" },
+  { name: "tntsports", url: "https://tvtvhd.com/canales.php?stream=tntsports" },
+  { name: "tudn", url: "https://tvtvhd.com/canales.php?stream=tudn" },
+  { name: "tudn_mx", url: "https://tvtvhd.com/canales.php?stream=tudn_mx" },
+  { name: "tvc_deportes", url: "https://tvtvhd.com/canales.php?stream=tvc_deportes" },
+  { name: "tvpublica", url: "https://tvtvhd.com/canales.php?stream=tvpublica" },
+  { name: "tycinternacional", url: "https://tvtvhd.com/canales.php?stream=tycinternacional" },
+  { name: "tycsports", url: "https://tvtvhd.com/canales.php?stream=tycsports" },
+  { name: "unimas", url: "https://tvtvhd.com/canales.php?stream=unimas" },
+  { name: "universo", url: "https://tvtvhd.com/canales.php?stream=universo" },
+  { name: "univision", url: "https://tvtvhd.com/canales.php?stream=univision" },
+  { name: "usanetwork", url: "https://tvtvhd.com/canales.php?stream=usanetwork" },
+  { name: "vtvplus", url: "https://tvtvhd.com/canales.php?stream=vtvplus" },
+  { name: "winsports", url: "https://tvtvhd.com/canales.php?stream=winsports" },
+  { name: "winsports2", url: "https://tvtvhd.com/canales.php?stream=winsports2" },
+  { name: "winsportsplus", url: "https://tvtvhd.com/canales.php?stream=winsportsplus" }
 ];
 
-// --- Build Buttons for List 1 (Blue) ---
+// =====================
+// LIST 3 (Yellow)
+// =====================
+const channels3 = [
+  { name: "azteca7", url: "https://tvtvhd.com/tv/canales.php?stream=azteca7" },
+  { name: "azteca_deportes", url: "https://tvtvhd.com/tv/canales.php?stream=azteca_deportes" },
+  { name: "beinsport_xtra_esp", url: "https://tvtvhd.com/tv/canales.php?stream=beinsport_xtra_espanol" },
+  { name: "beinsportes", url: "https://tvtvhd.com/tv/canales.php?stream=beinsportes" },
+  { name: "calientetv", url: "https://tvtvhd.com/tv/canales.php?stream=calientetv" },
+  { name: "canal11_pt", url: "https://tvtvhd.com/tv/canales.php?stream=canal11_pt" },
+  { name: "canal5", url: "https://tvtvhd.com/tv/canales.php?stream=canal5" },
+  { name: "cbs_sports_net", url: "https://tvtvhd.com/tv/canales.php?stream=cbs_sports_network" },
+  { name: "dazn1", url: "https://tvtvhd.com/tv/canales.php?stream=dazn1" },
+  { name: "dazn1_de", url: "https://tvtvhd.com/tv/canales.php?stream=dazn1_de" },
+  { name: "dazn2", url: "https://tvtvhd.com/tv/canales.php?stream=dazn2" },
+  { name: "dazn2_de", url: "https://tvtvhd.com/tv/canales.php?stream=dazn2_de" },
+  { name: "dazn3", url: "https://tvtvhd.com/tv/canales.php?stream=dazn3" },
+  { name: "dazn4", url: "https://tvtvhd.com/tv/canales.php?stream=dazn4" },
+  { name: "dazn_laliga", url: "https://tvtvhd.com/tv/canales.php?stream=dazn_laliga" },
+  { name: "dsports", url: "https://tvtvhd.com/tv/canales.php?stream=dsports" },
+  { name: "dsports2", url: "https://tvtvhd.com/tv/canales.php?stream=dsports2" },
+  { name: "dsportsplus", url: "https://tvtvhd.com/tv/canales.php?stream=dsportsplus" },
+  { name: "ecdf_ligapro", url: "https://tvtvhd.com/tv/canales.php?stream=ecdf_ligapro" },
+  { name: "eleven1_pt", url: "https://tvtvhd.com/tv/canales.php?stream=eleven1_pt" },
+  { name: "eleven2_pt", url: "https://tvtvhd.com/tv/canales.php?stream=eleven2_pt" },
+  { name: "eleven3_pt", url: "https://tvtvhd.com/tv/canales.php?stream=eleven3_pt" },
+  { name: "eleven4_pt", url: "https://tvtvhd.com/tv/canales.php?stream=eleven4_pt" },
+  { name: "eleven5_pt", url: "https://tvtvhd.com/tv/canales.php?stream=eleven5_pt" },
+  { name: "eleven6_pt", url: "https://tvtvhd.com/tv/canales.php?stream=eleven6_pt" },
+  { name: "elevenpro1_be", url: "https://tvtvhd.com/tv/canales.php?stream=elevenpro1_be" },
+  { name: "espn", url: "https://tvtvhd.com/tv/canales.php?stream=espn" },
+  { name: "espn1_nl", url: "https://tvtvhd.com/tv/canales.php?stream=espn1_nl" },
+  { name: "espn2", url: "https://tvtvhd.com/tv/canales.php?stream=espn2" },
+  { name: "espn2_nl", url: "https://tvtvhd.com/tv/canales.php?stream=espn2_nl" },
+  { name: "espn2_usa", url: "https://tvtvhd.com/tv/canales.php?stream=espn2_usa" },
+  { name: "espn2mx", url: "https://tvtvhd.com/tv/canales.php?stream=espn2mx" },
+  { name: "espn3", url: "https://tvtvhd.com/tv/canales.php?stream=espn3" },
+  { name: "espn3_nl", url: "https://tvtvhd.com/tv/canales.php?stream=espn3_nl" },
+  { name: "espn3mx", url: "https://tvtvhd.com/tv/canales.php?stream=espn3mx" },
+  { name: "espn4", url: "https://tvtvhd.com/tv/canales.php?stream=espn4" },
+  { name: "espn4mx", url: "https://tvtvhd.com/tv/canales.php?stream=espn4mx" },
+  { name: "espn5", url: "https://tvtvhd.com/tv/canales.php?stream=espn5" },
+  { name: "espn6", url: "https://tvtvhd.com/tv/canales.php?stream=espn6" },
+  { name: "espn7", url: "https://tvtvhd.com/tv/canales.php?stream=espn7" },
+  { name: "espn_usa", url: "https://tvtvhd.com/tv/canales.php?stream=espn_usa" },
+  { name: "espndeportes", url: "https://tvtvhd.com/tv/canales.php?stream=espndeportes" },
+  { name: "espnmx", url: "https://tvtvhd.com/tv/canales.php?stream=espnmx" },
+  { name: "espnpremium", url: "https://tvtvhd.com/tv/canales.php?stream=espnpremium" },
+  { name: "espnu", url: "https://tvtvhd.com/tv/canales.php?stream=espnu" },
+  { name: "eventos13", url: "https://tvtvhd.com/tv/canales.php?stream=eventos13" },
+  { name: "foxdeportes", url: "https://tvtvhd.com/tv/canales.php?stream=foxdeportes" },
+  { name: "foxsports", url: "https://tvtvhd.com/tv/canales.php?stream=foxsports" },
+  { name: "foxsports1_usa", url: "https://tvtvhd.com/tv/canales.php?stream=foxsports1_usa" },
+  { name: "foxsports2", url: "https://tvtvhd.com/tv/canales.php?stream=foxsports2" },
+  { name: "foxsports2_usa", url: "https://tvtvhd.com/tv/canales.php?stream=foxsports2_usa" },
+  { name: "foxsports2mx", url: "https://tvtvhd.com/tv/canales.php?stream=foxsports2mx" },
+  { name: "foxsports3", url: "https://tvtvhd.com/tv/canales.php?stream=foxsports3" },
+  { name: "foxsports3mx", url: "https://tvtvhd.com/tv/canales.php?stream=foxsports3mx" },
+  { name: "foxsportsmx", url: "https://tvtvhd.com/tv/canales.php?stream=foxsportsmx" },
+  { name: "foxsportspremium", url: "https://tvtvhd.com/tv/canales.php?stream=foxsportspremium" },
+  { name: "golperu", url: "https://tvtvhd.com/tv/canales.php?stream=golperu" },
+  { name: "goltv", url: "https://tvtvhd.com/tv/canales.php?stream=goltv" },
+  { name: "hisports", url: "https://tvtvhd.com/tv/canales.php?stream=hisports" },
+  { name: "la1tve", url: "https://tvtvhd.com/tv/canales.php?stream=la1tve" },
+  { name: "laligatvbar", url: "https://tvtvhd.com/tv/canales.php?stream=laligatvbar" },
+  { name: "liga1max", url: "https://tvtvhd.com/tv/canales.php?stream=liga1max" },
+  { name: "ligadecampeones1", url: "https://tvtvhd.com/tv/canales.php?stream=ligadecampeones1" },
+  { name: "ligadecampeones2", url: "https://tvtvhd.com/tv/canales.php?stream=ligadecampeones2" },
+  { name: "ligadecampeones3", url: "https://tvtvhd.com/tv/canales.php?stream=ligadecampeones3" },
+  { name: "m_laligatv", url: "https://tvtvhd.com/tv/canales.php?stream=m_laligatv" },
+  { name: "movistar", url: "https://tvtvhd.com/tv/canales.php?stream=movistar" },
+  { name: "premiere1", url: "https://tvtvhd.com/tv/canales.php?stream=premiere1" },
+  { name: "premiere2", url: "https://tvtvhd.com/tv/canales.php?stream=premiere2" },
+  { name: "premiere3", url: "https://tvtvhd.com/tv/canales.php?stream=premiere3" },
+  { name: "premiere4", url: "https://tvtvhd.com/tv/canales.php?stream=premiere4" },
+  { name: "premiere5", url: "https://tvtvhd.com/tv/canales.php?stream=premiere5" },
+  { name: "premiere6", url: "https://tvtvhd.com/tv/canales.php?stream=premiere6" },
+  { name: "premiere7", url: "https://tvtvhd.com/tv/canales.php?stream=premiere7" },
+  { name: "premiere8", url: "https://tvtvhd.com/tv/canales.php?stream=premiere8" },
+  { name: "sky_bundesliga1", url: "https://tvtvhd.com/tv/canales.php?stream=sky_bundesliga1" },
+  { name: "sky_bundesliga2", url: "https://tvtvhd.com/tv/canales.php?stream=sky_bundesliga2" },
+  { name: "sky_bundesliga3", url: "https://tvtvhd.com/tv/canales.php?stream=sky_bundesliga3" },
+  { name: "sky_bundesliga4", url: "https://tvtvhd.com/tv/canales.php?stream=sky_bundesliga4" },
+  { name: "sky_bundesliga5", url: "https://tvtvhd.com/tv/canales.php?stream=sky_bundesliga5" },
+  { name: "sky_bundesliga_mx", url: "https://tvtvhd.com/tv/canales.php?stream=sky_bundesliga_mx" },
+  { name: "sky_sports_laliga", url: "https://tvtvhd.com/tv/canales.php?stream=sky_sports_laliga" },
+  { name: "sporttv1", url: "https://tvtvhd.com/tv/canales.php?stream=sporttv1" },
+  { name: "sporttv2", url: "https://tvtvhd.com/tv/canales.php?stream=sporttv2" },
+  { name: "sporttv3", url: "https://tvtvhd.com/tv/canales.php?stream=sporttv3" },
+  { name: "sporttv4", url: "https://tvtvhd.com/tv/canales.php?stream=sporttv4" },
+  { name: "sporttv5", url: "https://tvtvhd.com/tv/canales.php?stream=sporttv5" },
+  { name: "sporttv6", url: "https://tvtvhd.com/tv/canales.php?stream=sporttv6" },
+  { name: "sportv", url: "https://tvtvhd.com/tv/canales.php?stream=sportv" },
+  { name: "sportv2", url: "https://tvtvhd.com/tv/canales.php?stream=sportv2" },
+  { name: "sportv3", url: "https://tvtvhd.com/tv/canales.php?stream=sportv3" },
+  { name: "telefe", url: "https://tvtvhd.com/tv/canales.php?stream=telefe" },
+  { name: "telemundo", url: "https://tvtvhd.com/tv/canales.php?stream=telemundo" },
+  { name: "tntsports", url: "https://tvtvhd.com/tv/canales.php?stream=tntsports" },
+  { name: "tudn", url: "https://tvtvhd.com/tv/canales.php?stream=tudn" },
+  { name: "tudn_mx", url: "https://tvtvhd.com/tv/canales.php?stream=tudn_mx" },
+  { name: "tvc_deportes", url: "https://tvtvhd.com/tv/canales.php?stream=tvc_deportes" },
+  { name: "tvpublica", url: "https://tvtvhd.com/tv/canales.php?stream=tvpublica" },
+  { name: "tycinternacional", url: "https://tvtvhd.com/tv/canales.php?stream=tycinternacional" },
+  { name: "tycsports", url: "https://tvtvhd.com/tv/canales.php?stream=tycsports" },
+  { name: "unimas", url: "https://tvtvhd.com/tv/canales.php?stream=unimas" },
+  { name: "universo", url: "https://tvtvhd.com/tv/canales.php?stream=universo" },
+  { name: "univision", url: "https://tvtvhd.com/tv/canales.php?stream=univision" },
+  { name: "usanetwork", url: "https://tvtvhd.com/tv/canales.php?stream=usanetwork" },
+  { name: "vtvplus", url: "https://tvtvhd.com/tv/canales.php?stream=vtvplus" },
+  { name: "winsports", url: "https://tvtvhd.com/tv/canales.php?stream=winsports" },
+  { name: "winsports2", url: "https://tvtvhd.com/tv/canales.php?stream=winsports2" },
+  { name: "winsportsplus", url: "https://tvtvhd.com/tv/canales.php?stream=winsportsplus" }
+];
+
+// =====================
+// PLAYER SYSTEM
+// =====================
+const exitBtn = document.getElementById('exitBtn');
+const currentStream = document.getElementById('currentStream');
+
+function playStream(url) {
+    currentStream.innerHTML = `<iframe src="${url}" allowfullscreen></iframe>`;
+    currentStream.style.display = "block";
+    exitBtn.style.display = "block";
+
+    document.getElementById("menu1").style.display = "none";
+    document.getElementById("menu2").style.display = "none";
+    document.getElementById("menu3").style.display = "none";
+}
+
+exitBtn.onclick = () => {
+    currentStream.innerHTML = "";
+    currentStream.style.display = "none";
+    exitBtn.style.display = "none";
+
+    document.getElementById("menu1").style.display = "grid";
+    document.getElementById("menu2").style.display = "grid";
+    document.getElementById("menu3").style.display = "grid";
+};
+
+
+// =====================
+// RENDER BUTTONS
+// =====================
+
+// List 1
 const menu1 = document.getElementById("menu1");
 channels1.forEach(ch => {
     const btn = document.createElement("button");
-    btn.innerText = ch.name.toUpperCase(); // Only extracted channel name
-    btn.onclick = () => {
-        window.open(ch.url, "_blank", "noopener,noreferrer"); // Uses the complete hardcoded URL
-    };
+    btn.innerText = ch.name.toUpperCase();
+    btn.onclick = () => playStream(ch.url);
     menu1.appendChild(btn);
 });
 
-// --- Build Buttons for List 2 (Green) ---
+// List 2
 const menu2 = document.getElementById("menu2");
-channels2.forEach(ch => {
+channels.forEach(ch => {
     const btn = document.createElement("button");
-    btn.classList.add("green"); // Applies the green styling
-    btn.innerText = ch.name.toUpperCase(); // Only extracted channel name
-    btn.onclick = () => {
-        window.open(ch.url, "_blank", "noopener,noreferrer"); // Uses the complete hardcoded URL
-    };
+    btn.classList.add("green");
+    btn.innerText = ch.name.toUpperCase();
+    btn.onclick = () => playStream(ch.url);
     menu2.appendChild(btn);
+});
+
+// List 3
+const menu3 = document.getElementById("menu3");
+channels3.forEach(ch => {
+    const btn = document.createElement("button");
+    btn.classList.add("yellow");
+    btn.innerText = ch.name.toUpperCase();
+    btn.onclick = () => playStream(ch.url);
+    menu3.appendChild(btn);
 });
 
 </script>
